@@ -3,12 +3,13 @@ import { SalePage } from "types/sales";
 import axios from 'axios';
 import { BASE_URL } from "Utils/requests";
 import { formatLocalDate } from "Utils/format";
+import Pgination from "components/Pagination";
 
 
 
 function DataTable() {
 
-
+    const [activePage, setActivePage] = useState(0);
     const [page, setPage] = useState<SalePage>({
         first: true,
         last:true,
@@ -19,15 +20,21 @@ function DataTable() {
     });
 
     useEffect(() =>{
-        axios.get(`${BASE_URL}/sales?page=0&size=20&sorte=date,desc`)
+        axios.get(`${BASE_URL}/sales?page=${activePage}&size=20&sorte=date,desc`)
         .then(response => {
             setPage(response.data);
        });
-    }, []);
+    }, [activePage]);
+
+    const changePage = (index: number) => {
+        setActivePage(index);
+    }
 
 
 
     return (
+        <>
+        <Pgination page={page} onPageChange={changePage} />
         <div className="table-responsive">
         <table className="table table-striped table-sm">
             <thead>
@@ -55,7 +62,7 @@ function DataTable() {
             </tbody>
         </table>
     </div>
-    
+    </>
        
     );
   }
