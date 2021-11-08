@@ -32,7 +32,7 @@ function Dashboard() {
         </div>
        
         <Footer />
-        </>
+       </>
     );
   }
   
